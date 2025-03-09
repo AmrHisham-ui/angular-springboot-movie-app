@@ -9,7 +9,7 @@
     <p>Your role: <strong>{{ currentUser?.role }}</strong></p>
 
     <!-- Admin Controls -->
-    <div *ngIf="currentUser?.role === 'ADMIN'" class="p-mb-3">
+    <div *ngIf="currentUser?.role === 'ROLE_ADMIN'" class="p-mb-3">
         <button pButton label="Add Movie" icon="pi pi-plus" class="p-button-success" (click)="showAddMovieDialog = true"></button>
         <button pButton label="Remove Selected" icon="pi pi-trash" class="p-button-danger" 
             (click)="deleteSelectedMovies()" [disabled]="selectedMovies.length === 0">
