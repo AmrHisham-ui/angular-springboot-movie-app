@@ -48,7 +48,7 @@ Ensure you have the following installed:
 1. Clone the repository:
    ```bash
    git clone https://github.com/AmrHisham-ui/angular-springboot-movie-app.git
-   cd angular-springboot-movie-app/backend
+   cd angular-springboot-movie-app/MovieAPI
    ```
 2. Configure the MySQL database:
    - Create a database named `movie_management`.
@@ -63,7 +63,7 @@ Ensure you have the following installed:
 
 1. Navigate to the frontend directory:
    ```bash
-   cd angular-springboot-movie-app/frontend
+   cd angular-springboot-movie-app/movie-managment
    ```
 2. Install dependencies:
    ```bash
