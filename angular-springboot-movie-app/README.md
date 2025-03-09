@@ -51,7 +51,7 @@ Ensure you have the following installed:
    cd angular-springboot-movie-app/MovieAPI
    ```
 2. Configure the MySQL database:
-   - Create a database named `movie_management`.
+   - Create a database named `moviemanagment`.
    - Update `application.properties` with your MySQL credentials.
 3. Build and run the backend:
    ```bash
