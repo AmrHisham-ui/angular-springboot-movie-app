@@ -1,0 +1,82 @@
+<p-menubar [model]="menuItems">
+    <ng-template pTemplate="end">
+        <button pButton label="Logout" icon="pi pi-sign-out" (click)="logout()" class="p-button-danger"></button>
+    </ng-template>
+</p-menubar>
+
+<div class="p-4">
+    <h2>Welcome, {{ currentUser?.username }}</h2>
+    <p>Your role: <strong>{{ currentUser?.role }}</strong></p>
+
+    <!-- Admin Controls -->
+    <div *ngIf="currentUser?.role === 'ADMIN'" class="p-mb-3">
+        <button pButton label="Add Movie" icon="pi pi-plus" class="p-button-success" (click)="showAddMovieDialog = true"></button>
+        <button pButton label="Remove Selected" icon="pi pi-trash" class="p-button-danger" 
+            (click)="deleteSelectedMovies()" [disabled]="selectedMovies.length === 0">
+        </button>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="p-inputgroup p-mb-3">
+        <input type="text" pInputText placeholder="Search movies..." [(ngModel)]="searchTerm" (input)="filterMovies()" />
+        <button pButton icon="pi pi-search" class="p-button-primary" (click)="filterMovies()"></button>
+    </div>
+
+    <!-- Movie Table -->
+    <p-table #dt [value]="filteredMovies" [(selection)]="selectedMovies" dataKey="id"
+  [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]">
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSelectableColumn></th>
+                <th pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon></th>
+                <th pSortableColumn="year">Year <p-sortIcon field="year"></p-sortIcon></th>
+                <th pSortableColumn="genre">Genre <p-sortIcon field="genre"></p-sortIcon></th>
+                <th pSortableColumn="director">Director <p-sortIcon field="director"></p-sortIcon></th>
+                <th *ngIf="currentUser?.role === 'ADMIN'">Actions</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-movie>
+            <tr [pSelectableRow]="movie" selectionMode="multiple">
+                <td pSelectableColumn></td>
+                <td>{{ movie.title }}</td>
+                <td>{{ movie.year }}</td>
+                <td>{{ movie.genre || 'N/A' }}</td>
+                <td>{{ movie.director || 'N/A' }}</td>
+                <td *ngIf="currentUser?.role === 'ADMIN'">
+                    <button pButton icon="pi pi-trash" class="p-button-danger p-button-sm" (click)="deleteMovie(movie)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <!-- Debugging: Show Selected Movies -->
+    <p *ngIf="selectedMovies.length > 0">Selected Movies: {{ selectedMovies | json }}</p>
+</div>
+
+<!-- Add Movie Dialog -->
+<p-dialog [(visible)]="showAddMovieDialog" header="Add New Movie" [modal]="true" [closable]="true">
+    <div class="p-fluid">
+        <div class="p-field">
+            <label for="title">Title</label>
+            <input id="title" type="text" pInputText [(ngModel)]="newMovie.title" />
+        </div>
+        <div class="p-field">
+            <label for="year">Year</label>
+            <input id="year" type="text" pInputText [(ngModel)]="newMovie.year" />
+        </div>
+        <div class="p-field">
+            <label for="genre">Genre</label>
+            <input id="genre" type="text" pInputText [(ngModel)]="newMovie.genre" />
+        </div>
+        <div class="p-field">
+            <label for="director">Director</label>
+            <input id="director" type="text" pInputText [(ngModel)]="newMovie.director" />
+        </div>
+    </div>
+    <p-footer>
+        <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="showAddMovieDialog = false"></button>
+        <button pButton label="Save" icon="pi pi-check" class="p-button-success" (click)="addMovie()"></button>
+    </p-footer>
+</p-dialog>
